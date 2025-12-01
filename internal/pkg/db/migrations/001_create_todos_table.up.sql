@@ -1,7 +1,7 @@
 USE todoapp;
 
 CREATE TABLE IF NOT EXISTS todos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id CHAR(36) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT DEFAULT NULL,
     completed BOOLEAN DEFAULT FALSE,

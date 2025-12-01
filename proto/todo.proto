@@ -17,8 +17,9 @@ message CreateTodoRequest {
     string description = 2;
 }
 
-message TodoId {
+message UpdateTodoRequest {
     string id = 1;
+    CreateTodoRequest data = 2;
 }
 
 message ListTodoResponse {
@@ -31,7 +32,7 @@ message BoolResponse {
 
 service TodoService {
     rpc CreateTodo (CreateTodoRequest) returns (TodoResponse);
-    rpc UpdateTodo (TodoId) returns (BoolResponse);
+    rpc UpdateTodo (UpdateTodoRequest) returns (BoolResponse);
     rpc DeleteTodo (TodoId) returns (BoolResponse);
     rpc ListTodos (google.protobuf.Empty) returns (ListTodoResponse);
 }

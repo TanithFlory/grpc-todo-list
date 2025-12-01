@@ -1,3 +1,9 @@
+-- name: CreateTodo :exec
+INSERT INTO
+    todos (id, title, description)
+VALUES
+    (?, ?, ?);
+
 -- name: GetTodo :one
 SELECT
     id,
@@ -26,7 +32,7 @@ ORDER BY
 LIMIT
     ? OFFSET ?;
 
--- name: UpdateTodo :one
+-- name: UpdateTodo :exec
 UPDATE
     todos
 SET
@@ -35,12 +41,7 @@ SET
     completed = ?,
     updated_at = CURRENT_TIMESTAMP
 WHERE
-    id = ? RETURNING id,
-    title,
-    description,
-    completed,
-    created_at,
-    updated_at;
+    id = ?;
 
 -- name: DeleteTodo :exec
 DELETE FROM

@@ -1,5 +1,5 @@
 CREATE TABLE todos (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id CHAR(36) NOT NULL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     completed BOOLEAN DEFAULT FALSE,

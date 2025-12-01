@@ -18,8 +18,17 @@ func NewTodoService(repo *repositories.TodoRepository) *TodoService {
 }
 
 func (s *TodoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest) (*pb.TodoResponse, error) {
+	todo, err := s.repo.CreateTodo(ctx, req.Title, req.Description)
 
-	return &pb.TodoResponse{}, nil
+	if err != nil {
+		return &pb.TodoResponse{}, err
+	}
+
+	return &pb.TodoResponse{
+		Id:          todo.ID,
+		Title:       todo.Title,
+		Description: todo.Description.String,
+	}, nil
 }
 
 func (s *TodoService) UpdateTodo(ctx context.Context, req *pb.TodoId) (*pb.BoolResponse, error) {
