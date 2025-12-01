@@ -1,6 +1,8 @@
 root = "."
 tmp_dir = "tmp"
 
+env_file = ".env"
+
 [build]
 cmd = "go build -o ./tmp/server.exe ./cmd/main.go"
 bin = "tmp/server.exe"
