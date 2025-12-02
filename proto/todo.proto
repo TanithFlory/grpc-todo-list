@@ -2,9 +2,7 @@
 syntax = "proto3";
 
 package todo;
-option go_package = "internal/proto/todo";
-
-import "google/protobuf/empty.proto";
+option go_package = "github.com/tanith/golang-todolist-api/internal/proto/todo";
 
 message TodoResponse {
   string id = 1;
@@ -30,9 +28,18 @@ message BoolResponse {
     bool success = 1;
 }
 
+message TodoId {
+    string id = 1;
+}
+
+message Pagination {
+    int32 limit = 1;
+    int32 offset = 2;
+}
+
 service TodoService {
     rpc CreateTodo (CreateTodoRequest) returns (TodoResponse);
     rpc UpdateTodo (UpdateTodoRequest) returns (BoolResponse);
     rpc DeleteTodo (TodoId) returns (BoolResponse);
-    rpc ListTodos (google.protobuf.Empty) returns (ListTodoResponse);
+    rpc ListTodos (Pagination) returns (ListTodoResponse);
 }

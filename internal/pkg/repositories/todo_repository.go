@@ -43,9 +43,14 @@ func (r *TodoRepository) CreateTodo(ctx context.Context, title string, descripti
 	return r.q.GetTodo(ctx, id)
 }
 
-func (r *TodoRepository) UpdateTodo(ctx context.Context, id string) (bool, error) {
+func (r *TodoRepository) UpdateTodo(ctx context.Context, id string, title string, description string) (bool, error) {
 	err := r.q.UpdateTodo(ctx, sqlc.UpdateTodoParams{
-		ID: id,
+		ID:    id,
+		Title: title,
+		Description: sql.NullString{
+			String: description,
+			Valid:  description != "",
+		},
 	})
 
 	if err != nil {
@@ -53,4 +58,32 @@ func (r *TodoRepository) UpdateTodo(ctx context.Context, id string) (bool, error
 	}
 
 	return true, nil
+}
+
+func (r *TodoRepository) DeleteTodo(ctx context.Context, id string) (bool, error) {
+	err := r.q.DeleteTodo(ctx, id)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+type Pagination struct {
+	Limit  int32
+	Offset int32
+}
+
+func (r *TodoRepository) ListTodos(ctx context.Context, pagination *Pagination) ([]sqlc.Todo, error) {
+	todos, err := r.q.ListTodos(ctx, sqlc.ListTodosParams{
+		Limit:  pagination.Limit,
+		Offset: pagination.Offset,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return todos, nil
 }

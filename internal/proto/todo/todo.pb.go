@@ -9,7 +9,6 @@ package todo
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -134,27 +133,28 @@ func (x *CreateTodoRequest) GetDescription() string {
 	return ""
 }
 
-type TodoId struct {
+type UpdateTodoRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *CreateTodoRequest     `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *TodoId) Reset() {
-	*x = TodoId{}
+func (x *UpdateTodoRequest) Reset() {
+	*x = UpdateTodoRequest{}
 	mi := &file_todo_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TodoId) String() string {
+func (x *UpdateTodoRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TodoId) ProtoMessage() {}
+func (*UpdateTodoRequest) ProtoMessage() {}
 
-func (x *TodoId) ProtoReflect() protoreflect.Message {
+func (x *UpdateTodoRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_todo_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -166,16 +166,23 @@ func (x *TodoId) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TodoId.ProtoReflect.Descriptor instead.
-func (*TodoId) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateTodoRequest.ProtoReflect.Descriptor instead.
+func (*UpdateTodoRequest) Descriptor() ([]byte, []int) {
 	return file_todo_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *TodoId) GetId() string {
+func (x *UpdateTodoRequest) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
+}
+
+func (x *UpdateTodoRequest) GetData() *CreateTodoRequest {
+	if x != nil {
+		return x.Data
+	}
+	return nil
 }
 
 type ListTodoResponse struct {
@@ -266,33 +273,136 @@ func (x *BoolResponse) GetSuccess() bool {
 	return false
 }
 
+type TodoId struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TodoId) Reset() {
+	*x = TodoId{}
+	mi := &file_todo_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TodoId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TodoId) ProtoMessage() {}
+
+func (x *TodoId) ProtoReflect() protoreflect.Message {
+	mi := &file_todo_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TodoId.ProtoReflect.Descriptor instead.
+func (*TodoId) Descriptor() ([]byte, []int) {
+	return file_todo_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *TodoId) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type Pagination struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Limit         int32                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        int32                  `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Pagination) Reset() {
+	*x = Pagination{}
+	mi := &file_todo_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Pagination) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Pagination) ProtoMessage() {}
+
+func (x *Pagination) ProtoReflect() protoreflect.Message {
+	mi := &file_todo_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Pagination.ProtoReflect.Descriptor instead.
+func (*Pagination) Descriptor() ([]byte, []int) {
+	return file_todo_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *Pagination) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *Pagination) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
 var File_todo_proto protoreflect.FileDescriptor
 
 const file_todo_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"todo.proto\x12\x04todo\x1a\x1bgoogle/protobuf/empty.proto\"V\n" +
+	"todo.proto\x12\x04todo\"V\n" +
 	"\fTodoResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\"K\n" +
 	"\x11CreateTodoRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\"\x18\n" +
-	"\x06TodoId\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"<\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\"P\n" +
+	"\x11UpdateTodoRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12+\n" +
+	"\x04data\x18\x02 \x01(\v2\x17.todo.CreateTodoRequestR\x04data\"<\n" +
 	"\x10ListTodoResponse\x12(\n" +
 	"\x05todos\x18\x01 \x03(\v2\x12.todo.TodoResponseR\x05todos\"(\n" +
 	"\fBoolResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe5\x01\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x18\n" +
+	"\x06TodoId\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\":\n" +
+	"\n" +
+	"Pagination\x12\x14\n" +
+	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12\x16\n" +
+	"\x06offset\x18\x02 \x01(\x05R\x06offset2\xea\x01\n" +
 	"\vTodoService\x129\n" +
 	"\n" +
-	"CreateTodo\x12\x17.todo.CreateTodoRequest\x1a\x12.todo.TodoResponse\x12.\n" +
+	"CreateTodo\x12\x17.todo.CreateTodoRequest\x1a\x12.todo.TodoResponse\x129\n" +
 	"\n" +
-	"UpdateTodo\x12\f.todo.TodoId\x1a\x12.todo.BoolResponse\x12.\n" +
+	"UpdateTodo\x12\x17.todo.UpdateTodoRequest\x1a\x12.todo.BoolResponse\x12.\n" +
 	"\n" +
-	"DeleteTodo\x12\f.todo.TodoId\x1a\x12.todo.BoolResponse\x12;\n" +
-	"\tListTodos\x12\x16.google.protobuf.Empty\x1a\x16.todo.ListTodoResponseB\x15Z\x13internal/proto/todob\x06proto3"
+	"DeleteTodo\x12\f.todo.TodoId\x1a\x12.todo.BoolResponse\x125\n" +
+	"\tListTodos\x12\x10.todo.Pagination\x1a\x16.todo.ListTodoResponseB;Z9github.com/tanith/golang-todolist-api/internal/proto/todob\x06proto3"
 
 var (
 	file_todo_proto_rawDescOnce sync.Once
@@ -306,30 +416,32 @@ func file_todo_proto_rawDescGZIP() []byte {
 	return file_todo_proto_rawDescData
 }
 
-var file_todo_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_todo_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_todo_proto_goTypes = []any{
 	(*TodoResponse)(nil),      // 0: todo.TodoResponse
 	(*CreateTodoRequest)(nil), // 1: todo.CreateTodoRequest
-	(*TodoId)(nil),            // 2: todo.TodoId
+	(*UpdateTodoRequest)(nil), // 2: todo.UpdateTodoRequest
 	(*ListTodoResponse)(nil),  // 3: todo.ListTodoResponse
 	(*BoolResponse)(nil),      // 4: todo.BoolResponse
-	(*emptypb.Empty)(nil),     // 5: google.protobuf.Empty
+	(*TodoId)(nil),            // 5: todo.TodoId
+	(*Pagination)(nil),        // 6: todo.Pagination
 }
 var file_todo_proto_depIdxs = []int32{
-	0, // 0: todo.ListTodoResponse.todos:type_name -> todo.TodoResponse
-	1, // 1: todo.TodoService.CreateTodo:input_type -> todo.CreateTodoRequest
-	2, // 2: todo.TodoService.UpdateTodo:input_type -> todo.TodoId
-	2, // 3: todo.TodoService.DeleteTodo:input_type -> todo.TodoId
-	5, // 4: todo.TodoService.ListTodos:input_type -> google.protobuf.Empty
-	0, // 5: todo.TodoService.CreateTodo:output_type -> todo.TodoResponse
-	4, // 6: todo.TodoService.UpdateTodo:output_type -> todo.BoolResponse
-	4, // 7: todo.TodoService.DeleteTodo:output_type -> todo.BoolResponse
-	3, // 8: todo.TodoService.ListTodos:output_type -> todo.ListTodoResponse
-	5, // [5:9] is the sub-list for method output_type
-	1, // [1:5] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	1, // 0: todo.UpdateTodoRequest.data:type_name -> todo.CreateTodoRequest
+	0, // 1: todo.ListTodoResponse.todos:type_name -> todo.TodoResponse
+	1, // 2: todo.TodoService.CreateTodo:input_type -> todo.CreateTodoRequest
+	2, // 3: todo.TodoService.UpdateTodo:input_type -> todo.UpdateTodoRequest
+	5, // 4: todo.TodoService.DeleteTodo:input_type -> todo.TodoId
+	6, // 5: todo.TodoService.ListTodos:input_type -> todo.Pagination
+	0, // 6: todo.TodoService.CreateTodo:output_type -> todo.TodoResponse
+	4, // 7: todo.TodoService.UpdateTodo:output_type -> todo.BoolResponse
+	4, // 8: todo.TodoService.DeleteTodo:output_type -> todo.BoolResponse
+	3, // 9: todo.TodoService.ListTodos:output_type -> todo.ListTodoResponse
+	6, // [6:10] is the sub-list for method output_type
+	2, // [2:6] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_todo_proto_init() }
@@ -343,7 +455,7 @@ func file_todo_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_todo_proto_rawDesc), len(file_todo_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

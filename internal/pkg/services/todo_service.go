@@ -3,9 +3,9 @@ package services
 import (
 	"context"
 
+	mapper "github.com/TanithFlory/go-todolist-api/internal/pkg/mappers"
 	"github.com/TanithFlory/go-todolist-api/internal/pkg/repositories"
 	pb "github.com/TanithFlory/go-todolist-api/internal/proto/todo"
-	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type TodoService struct {
@@ -31,14 +31,55 @@ func (s *TodoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest)
 	}, nil
 }
 
-func (s *TodoService) UpdateTodo(ctx context.Context, req *pb.TodoId) (*pb.BoolResponse, error) {
-	return &pb.BoolResponse{}, nil
+func (s *TodoService) UpdateTodo(ctx context.Context, req *pb.UpdateTodoRequest) (*pb.BoolResponse, error) {
+	updated, err := s.repo.UpdateTodo(ctx, req.Id, req.Data.Title, req.Data.Description)
+
+	if err != nil {
+		return &pb.BoolResponse{}, err
+	}
+
+	return &pb.BoolResponse{
+		Success: updated,
+	}, nil
 }
 
 func (s *TodoService) DeleteTodo(ctx context.Context, req *pb.TodoId) (*pb.BoolResponse, error) {
-	return &pb.BoolResponse{}, nil
+	success, err := s.repo.DeleteTodo(ctx, req.Id)
+
+	if err != nil {
+		return &pb.BoolResponse{}, err
+	}
+
+	return &pb.BoolResponse{
+		Success: success,
+	}, nil
 }
 
-func (s *TodoService) ListTodos(ctx context.Context, _ *emptypb.Empty) (*pb.ListTodoResponse, error) {
-	return &pb.ListTodoResponse{}, nil
+func (s *TodoService) ListTodos(ctx context.Context, req *pb.Pagination) (*pb.ListTodoResponse, error) {
+	offset := req.Offset
+	if offset < 0 {
+		offset = 0
+	}
+
+	limit := req.Limit
+	if limit <= 0 {
+		limit = 10
+	}
+
+	println(req.Limit, req.Offset)
+
+	todos, err := s.repo.ListTodos(ctx, &repositories.Pagination{
+		Limit:  limit,
+		Offset: offset,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	pbTodos := mapper.ToPbTodoList(todos)
+
+	return &pb.ListTodoResponse{
+		Todos: pbTodos,
+	}, nil
 }
